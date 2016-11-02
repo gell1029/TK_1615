@@ -18,7 +18,7 @@ public class MonsterFire : MonoBehaviour {
     // Use this for initialization
     void Start () {
         GameObject.Find("RawImage").GetComponent<RawImage>().enabled = false;
-
+        SwiftClass.swiftFirstStartRecordingMethod();
     }
 
     // Update is called once per frame
@@ -51,8 +51,9 @@ public class MonsterFire : MonoBehaviour {
 		//1分間これが呼ばれなかったらもう一度呼び出すメソッドほしい
 		//SwiftClass.swiftStartRecordingMethod ();
 
-		int num = 0;
-		if (message.IndexOf ("_") <= 0) {
+        string pos = "Prefab/";                        // prefabフォルダへの相対パス
+
+        if (message.IndexOf("_") <= 0) {
 			if (message == "swiftstart") {
 				GameObject.Find ("RawImage").GetComponent<RawImage> ().enabled = true;
 			}
@@ -61,24 +62,22 @@ public class MonsterFire : MonoBehaviour {
 			}
 			return;
 		}
-			//string[0]:word, string[1]:value for scale
-			        string[] stArrayData = message.Split('_');
-			        int objScale = int.Parse(stArrayData[1]);
+		
+        //string[0]:word(object name), string[1]:value for scale(volume)
+        string[] stArrayData = message.Split('_');
+        int objScale = int.Parse(stArrayData[1]);
 
-			        string pos = "Prefab/";
-			        pos += stArrayData[0];
+        pos += stArrayData[0];
 
-			        Debug.Log(stArrayData[0]);
-
-       // string pos = "Prefab/";
-       // pos += message;
+	    Debug.Log("Object Name:"+stArrayData[0]);
+        Debug.Log("volume:"+stArrayData[1]);
 
         //GameObject temp = (GameObject)Resources.Load(modelName);
         GameObject temp = (GameObject)Resources.Load(pos);
         if (temp != null)
         {
-			
-            num = prefabs.Count;//リストが削除されることを考えていない
+            int num = 0;                                 //オブジェクトの数を調べるためのローカル変数                          
+            num = prefabs.Count;
 
             //Instantiate(prefabs[num - 1], new Vector3(0f, 1f, 0f), Quaternion.identity);
 			float x = Random.Range(-8.0f,8.0f);
